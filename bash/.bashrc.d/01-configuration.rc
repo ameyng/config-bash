@@ -28,14 +28,21 @@ HISTFILESIZE=
 # This is because some "Bash" sessions truncate this file on exit.
 HISTFILE="${HOME}/.my_bash_history"
 
-# Disable overwriting the history file, insetad always append to it.
+# The default value of "HISTCONTROL" is "ignoredups" which skips adding duplicate entries to the history.
+# Do not exclude any entries from the history by resetting the value of this variable.
+HISTCONTROL=
+
+# By default, when a "Bash" session ends, the history file is cleared and the session's entries are saved to it.
+# Disable this behaviour and only append to the file when the session ends.
 shopt -s histappend
 
-# Append to the history file immediately after executing a command, before accepting further input.
-# This ensures that history entries are written immediately and multiple sessions of "Bash" remain in sync with respect to their history (eg: while using "tmux").
-# This is done by setting the "PROMPT_COMMAND" variable.
-# When set, it is evaludated right before "PS1" (primary prompt displayed before each command).
-PROMPT_COMMAND="history -a; ${PROMPT_COMMAND}"
+# When "PROMPT_COMMAND" is set, it is evaludated right before "PS1" (primary prompt displayed before each command).
+# The following commands have been prepended to the "PROMPT_COMMAND".
+# "history -a" - Append the last executed line to the history file (on-disk).
+# "history -c" - Clear all history entries (in-memory).
+# "history -r" - Read the history file and append its entries to the history (in-memorry).
+# The above operations combined ensure that history will remain in-sync across multiple "Bash" sessions.
+PROMPT_COMMAND="history -a; history -c; history -r; ${PROMPT_COMMAND}"
 
 # Save all lines of a multi-line command in the same history entry.
 shopt -s cmdhist
@@ -48,4 +55,4 @@ shopt -s histverify
 
 # Timestamp each entry in the history.
 # Here's a sample of the format used "894  [Wed-20-Dec-2023-04-12-21-AM-+0530] ==> ls -Alh".
-HISTTIMEFORMAT="[%a-%d-%b-%Y-%I-%M-%S-%p-%z] ==> "
+HISTTIMEFORMAT="[%a-%d-%b-%Y-%H-%M-%S-%Z] ==> "
