@@ -24,6 +24,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.1.0] - 2023-12-20
+
 ### Added
 
 - Setup base `.bashrc` and `.bash_profile`.
@@ -41,7 +43,8 @@ All notable changes to this project will be documented in this file.
 - More dynamic content resizing when changing size of terminal emulator.
 
 <!-- Version annotations -->
-[Unreleased]: https://github.com/ameyng/config-bash/commit/HEAD
+[Unreleased]: https://github.com/ameyng/config-bash/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/ameyng/config-bash/releases/tag/v0.1.0
 
 <!-- General annotations -->
 [Homebrew]: https://brew.sh "Homebrew"
