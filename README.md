@@ -3,10 +3,8 @@
 
 <!-- HTML Formatted Changelog & License Links -->
 <h3 align="center">
-  [<a href="CHANGELOG.md">Changelog</a>] | [<a href="LICENSE">License</a>] | [<a href="APPENDIX.md">Appendix</a>]
+  <a href="CHANGELOG.md">Changelog</a> | <a href="LICENSE">License</a> | <a href="APPENDIX.md">Appendix</a>
 </h3>
-
-Sensible, sane configuration options for [Bash].
 
 ## Features
 
@@ -76,85 +74,83 @@ The following additional requirements must be met in otder to use this configura
 
 - None.
 
-## Instructions
-
-### Installation (GNU/Linux, MacOS & BSD Operating Systems)
+## Installation (GNU/Linux, MacOS & BSD Operating Systems)
 
 1. Create a new backup directory.
 
-  - `$ mkdir "${HOME}"/.bash_backup`.
+        $ mkdir "${HOME}"/.bash_backup
 
 2. Backup existing configuration files (see [supported operating systems](#supported-operating-systems)) to the backup directory.
 
-  - `$ mv "${HOME}/.bash_profile" "${HOME}"/.bash_backup/.bash_profile-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup`.
+        $ mv "${HOME}/.bash_profile" "${HOME}"/.bash_backup/.bash_profile-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup
 
-  - `$ mv "${HOME}/.bashrc" "${HOME}"/.bash_backup/.bashrc-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup`.
+        $ mv "${HOME}/.bashrc" "${HOME}"/.bash_backup/.bashrc-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup
 
-  - `$ mv "${HOME}/.bashrc.d" "${HOME}"/.bash_backup/.bashrc.d-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup`.
+        $ mv "${HOME}/.bashrc.d" "${HOME}"/.bash_backup/.bashrc.d-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup
 
 3. Clone this repository into your home directory.
 
-  - `$ cd "${HOME}"`.
+        $ cd "${HOME}"
 
-  - `$ git clone https://github.com/ameyng/config-bash`.
+        $ git clone https://github.com/ameyng/config-bash
 
 4. Navigate to the cloned repository.
 
-  - `$ cd config-bash`.
+        $ cd config-bash
 
 5. Installation can be done using [GNU Stow] or `ln`.
 
-  - Using [GNU Stow]
+      - Using [GNU Stow]
 
-    - `$ stow bash -t "${HOME}"`.
+            $ stow bash -t "${HOME}"
 
-  - Using `ln`
+      - Using `ln`
 
-    - `$ cd bash`.
-
-    - `$ ln -sf "$(pwd)"/.bashrc "${HOME}"/.bashrc`.
-
-    - `$ ln -sf "$(pwd)"/.bash_profile "${HOME}"/.bash_profile`.
-
-    - `$ ln -sf "$(pwd)"/.bashrc.d "${HOME}"/.bashrc.d`.
+            $ cd bash
+    
+            $ ln -sf "$(pwd)"/.bashrc "${HOME}"/.bashrc
+    
+            $ ln -sf "$(pwd)"/.bash_profile "${HOME}"/.bash_profile
+    
+            $ ln -sf "$(pwd)"/.bashrc.d "${HOME}"/.bashrc.d
 
 6. Verify the operation by executing `$ ls -Alh ~/`. You will see entries for `.bashrc`, `.bash_profile` & `.bashrc.d` with arrows pointing to the actual files i.e. to the files within this cloned repository.
 
 7. Close and reopen your terminal emulator program or open a new session of [Bash].
 
-### Update (GNU/Linux, MacOS & BSD Operating Systems)
+## Update (GNU/Linux, MacOS & BSD Operating Systems)
 
 1. Backup existing configuration files (see [supported operating systems](#supported-operating-systems)) to the backup directory.
 
-  - `$ mv "${HOME}/.bash_profile" "${HOME}"/.bash_backup/.bash_profile-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup`.
+        $ mv "${HOME}/.bash_profile" "${HOME}"/.bash_backup/.bash_profile-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup
 
-  - `$ mv "${HOME}/.bashrc" "${HOME}"/.bash_backup/.bashrc-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup`.
+        $ mv "${HOME}/.bashrc" "${HOME}"/.bash_backup/.bashrc-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup
 
-  - `$ mv "${HOME}/.bashrc.d" "${HOME}"/.bash_backup/.bashrc.d-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup`.
+        $ mv "${HOME}/.bashrc.d" "${HOME}"/.bash_backup/.bashrc.d-"$(date +%a-%d-%b-%Y-%I-%M-%S-%p-%z)".backup
 
 2. Update the cloned repository.
 
-  - `$ cd "${HOME}"`.
+        $ cd "${HOME}"
 
-  - `$ cd config-bash`.
+        $ cd config-bash
 
-  - `$ git pull --all`.
+        $ git pull --all
 
 3. The configuration can be updated using [GNU Stow] or `ln`.
 
-  - Using [GNU Stow]
-
-    - `$ stow bash -t "${HOME}"`.
-
-  - Using `ln`
-
-    - `$ cd bash`.
-
-    - `$ ln -sf "$(pwd)"/.bashrc "${HOME}"/.bashrc`.
-
-    - `$ ln -sf "$(pwd)"/.bash_profile "${HOME}"/.bash_profile`.
-
-    - `$ ln -sf "$(pwd)"/.bashrc.d "${HOME}"/.bashrc.d`.
+      - Using [GNU Stow]
+    
+            $ stow bash -t "${HOME}"
+    
+      - Using `ln`
+    
+            $ cd bash
+    
+            $ ln -sf "$(pwd)"/.bashrc "${HOME}"/.bashrc
+    
+            $ ln -sf "$(pwd)"/.bash_profile "${HOME}"/.bash_profile
+    
+            $ ln -sf "$(pwd)"/.bashrc.d "${HOME}"/.bashrc.d
 
 4. Verify the operation by executing `$ ls -Alh ~/`. You will see entries for `.bashrc`, `.bash_profile` & `.bashrc.d` with arrows pointing to the actual files i.e. to the files within this cloned repository.
 
@@ -165,6 +161,7 @@ The following additional requirements must be met in otder to use this configura
 <!-- These appear only in the markdown source code and are invisible in the rendered document -->
 
 [Bash]: https://www.gnu.org/software/bash "Bash"
+[GNU Bash]: https://www.gnu.org/software/bash "Bash"
 [ShellCheck]: https://github.com/koalaman/shellcheck "ShellCheck" 
 [shfmt]: https://github.com/mvdan/sh "shfmt"
 [pyenv]: https://github.com/pyenv/pyenv "pyenv"
