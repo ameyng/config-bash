@@ -1,3 +1,13 @@
-# Access Tokens
+# Access Tokens.
+# Exclude for security reasons.
 pat*
 .pat*
+
+# ".backup" Files.
+# Files that are backup copies of other files being worked on.
+**/*.backup
+
+# ".wip" files.
+# Files that are being worked on and shouldn't be tracked into the repository yet.
+**/*.wip
+

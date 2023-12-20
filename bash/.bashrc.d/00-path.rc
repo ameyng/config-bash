@@ -1,0 +1,246 @@
+########
+# PATH #
+########
+
+# This configuration appends to the environment variable "PATH" based on multiple factors.
+# It is named "00-path.rc" because it must be loaded first by "${HOME}/.bashrc".
+
+# User Executable Directories #
+###############################
+
+# Often, users keep their swlf-written scripts and self-compiled binaries in "${HOME}/bin" and "${HOME}/.local/bin" directories.
+# It is advisable to include them in "PATH" for convenience.
+
+# Initialize an empty string variable to determine whether to setup the "${HOME}/bin" and "${HOME}/.local/bin" directories.
+sSetupDirectories=""
+
+# Iterate over the two directory paths "${HOME}/bin" and "${HOME}/.local/bin".
+for sDirectoryPath in "${HOME}/bin" "${HOME}/.local/bin"; do
+  # Reset the value of the variable "sSetupDirectories".
+  sSetupDirectories=""
+
+  # Check if the directory path exists.
+  if [[ -d "${sDirectoryPath}" ]]; then
+    # Now check if the path is NOT readable.
+    if [[ ! -r "${sDirectoryPath}" ]]; then
+      echo -e "[W] The directory \"${sDirectoryPath}\" exists but is not readable by the user \"${USER}\"."
+    # Else, if it is readable.
+    else
+      # Set the decision variable "sSetupDirectories" to "yes".
+      sSetupDirectories="yes"
+    fi
+  # Else, if the directory does not exist.
+  else
+    # Create the directory.
+    mkdir -p "${sDirectoryPath}"
+
+    # Set the decision variable "sSetupDirectories" to "yes".
+    sSetupDirectories="yes"
+  fi
+
+  # If the variable "sSetupDirectories" is "yes", continue further.
+  if [[ "yes" == "${sSetupDirectories}" ]]; then
+    # Check if the directory path being iterated over is not an empty string or undeclared variable.
+    # This check is important since an empty string can also match a regular expression.
+    if [[ -n "${sDirectoryPath}" ]]; then
+      # Check if the directory path is not already in "PATH".
+      if ! [[ "${PATH}" =~ ${sDirectoryPath} ]]; then
+        # Prepend the directory path to "PATH".
+        PATH="${sDirectoryPath}:${PATH}"
+      fi
+    fi
+  fi
+done
+
+# Unset the variables "sSetupDirectories" and "sDirectoryPath" used earlier.
+unset sSetupDirectories
+unset sDirectoryPath
+
+# Homebrew #
+############
+
+# "Homebrew" is a package manager available on GNU/Linux and MacOS systems.
+# The place where "Homebrew" installs packages is called the "prefix" and is dependent on the OS and CPU architecture.
+
+# Initialize separate string variables to store the CPU architecture and OS name.
+sCPUArchitecture="$(uname -m)"
+sOSName="$(uname)"
+
+# Concatenate the two variables above to produce a new variable called "sPlatform".
+sPlatform="${sCPUArchitecture}-${sOSName}"
+
+# Release the "sCPUArchitecture" & "sOSName" variables used earlier.
+unset sCPUArchitecture
+unset sOSName
+
+# Initialize an empty string variable to store the "Homebrew" prefix.
+sBrewPrefix=""
+
+# Choose the right "Homebrew" prefix based on the platform.
+case "${sPlatform}" in
+  "arm64-Darwin")
+    # MacOS ARM64 i.e. M1/M2/M3 CPUs.
+    sBrewPrefix="/opt/homebrew"
+    ;;
+  "x86_64-Darwin")
+    # MacOS with Intel CPUs.
+    sBrewPrefix="/usr/local"
+    ;;
+  "x86_64-Linux")
+    # 64-bit GNU/Linux systems.
+    sBrewPrefix="/home/linuxbrew/.linuxbrew"
+    ;;
+  *)
+    # Anything else.
+    ;;
+esac
+
+# Release the "sPlatform" variable used earlier.
+unset sPlatform
+
+# Initialize a string variable to store the path of the binary "brew".
+sBrewBinaryPath="${sBrewPrefix}/bin/brew"
+
+# Check if the variable "sBrewBinaryPath" actually points to an executable.
+# i.e. check if "Homebrew" is installed.
+if [[ -x "${sBrewBinaryPath}" ]]; then
+  # Generate the required values for "Homebrew" and store them in a new variable.
+  sBrewEnvironment=$("${sBrewBinaryPath}" shellenv)
+
+  # Release the "sBrewBinaryPath" variable used earlier.
+  unset sBrewBinaryPath
+
+  # Evaluate the varianle value generated above.
+  # This will set various environment variables required for "Homebrew".
+  eval "${sBrewEnvironment}"
+
+  # Release the "sBrewEnvironment" variable used earlier.
+  unset sBrewEnvironment
+
+  # Using "Homebrew", various packages can be installed to replace the old and outdated ones from MacOS.
+  # For example, "findutils" & "coreutils", for more updated versions of "find", "grep", etc.
+  # Binaries from these packages are installed under the paths shown below.
+  # "Homebrew" "coreutils" - "${sBrewPrefix}/opt/coreutils/libexec/gnubin".
+  # "Homebrew" "findutils" - "${sBrewPrefix}/opt/findutils/libexec/gnubin".
+  # These directories must be prepended to "PATH" in order for their executables to take precedance over their MacOS counterparts.
+  # Iterating over directories that match such patterns.
+  for sMacUtilReplacementPath in "${sBrewPrefix}/opt/"*"/libexec/gnubin"; do
+    # Check if the entry being iterated over is not an empty string, is a directory and is readable.
+    # Checking for empty strings is important since we have to match it with regular expressions later.
+    if [[ -n "${sMacUtilReplacementPath}" ]] && [[ -d "${sMacUtilReplacementPath}" ]] && [[ -r "${sMacUtilReplacementPath}" ]]; then
+      # Check if the directory path is not already in "PATH".
+      if ! [[ "${PATH}" =~ ${sMacUtilReplacementPath} ]]; then
+        # Prepend the directory path to "PATH".
+        PATH="${sMacUtilReplacementPath}:${PATH}"
+      fi
+    fi
+  done
+
+  # Release the "sMacUtilReplacementPath" variable used earlier.
+  unset sMacUtilReplacementPath
+
+  # Initialize "Bash" completions for binaries installed using "Homebrew".
+  # If using "Homebrew" version of "Bash", make sure that the package "bash-completions@2" is installed.
+  # Check if the main completions init script exists and if it's readable.
+  if [[ -f "${sBrewPrefix}"/etc/profile.d/bash_completion.sh ]] && [[ -r "${sBrewPrefix}"/etc/profile.d/bash_completion.sh ]]; then
+    # Sourcing this will take care of the rest.
+    source "${sBrewPrefix}"/etc/profile.d/bash_completion.sh
+  # If the file is not found or not readable, perhaps if not using the "Homebrew" version of "Bash".
+  else
+    # "Homebrew" installs individual completions for packages under "${sBrewPrefix}/etc/bash_completion.d".
+    # Check if this directory exists and is readable.
+    if [[ -d "${sBrewPrefix}/etc/bash_completion.d" ]] && [[ -r "${sBrewPrefix}/etc/bash_completion.d" ]]; then
+      # Iterate over the contents of this directory.
+      for sCompletionsFilePath in "${sBrewPrefix}/etc/bash_completion.d/"*; do
+        # Check if the entry is a file and is readable.
+        if [[ -f "${sCompletionsFilePath}" ]] && [[ -r "${sCompletionsFilePath}" ]]; then
+          # Source the file to enable completions for the individual package.
+          source "${sCompletionsFilePath}"
+        fi
+      done
+
+      # Release the "sCompletionsFilePath" variable used earlier.
+      unset sCompletionsFilePath
+    fi
+  fi
+
+  # Release the "sBrewPrefix" variable used earlier.
+  unset sBrewPrefix
+fi
+
+# pyenv #
+#########
+
+# "pyenv" is a tool to manage "Python" versions and environments.
+
+# Initialize an empty string to determine whether to setup "PyEnv" or not.
+sSetupPyEnv=""
+
+# Initialize the path of the "pyenv" binary.
+sPyEnvBinaryPath=$(command -v pyenv)
+
+# Check if the "pyenv" executable is found at the above path.
+if [[ -x "${sPyEnvBinaryPath}" ]]; then
+
+  # Release the "sPyEnvBinaryPath" variable used earlier.
+  unset sPyEnvBinaryPath
+
+  # Check if the "PyEnv" base directory exists.
+  # This directory is "$HOME/.pyenv".
+  if [[ -d "${HOME}/.pyenv" ]]; then
+    # Now check if this directory is NOT readable by the user.
+    if ! [[ -r "${HOME}/.pyenv" ]]; then
+      echo "[W] \"pyenv\" is installed but the base directory \"${HOME}/.pyenv\" is not readable by \"${USER}\""
+    # If the directory is readable.
+    else
+      # Set the string variable that controls further setup to "yes".
+      sSetupPyEnv="yes"
+    fi
+  # If the directory does not exist.
+  else
+    # Create the directory.
+    mkdir "${HOME}/.pyenv"
+
+    # Set the string variable that controls further setup to "yes".
+    sSetupPyEnv="yes"
+  fi
+
+  # If the variable "sSetupPyEnv" is "yes".
+  if [[ "yes" == "${sSetupPyEnv}" ]]; then
+    # Release the variable "sSetupPyEnv" used earlier.
+    unset sSetupPyEnv
+
+    # Set the environment variable "PYENV_ROOT" to the path "${HOME}/.pyenv".
+    PYENV_ROOT="${HOME}/.pyenv"
+
+    # Export "PYENV_ROOT"
+    export PYENV_ROOT
+
+    # In this case, based on the logic defined above, "${PYENV_ROOT}/bin" cannot be an empty string.
+    # Hence, checking it is not required here.
+    # Check if this directory exists and is readable.
+    if [[ -d "${PYENV_ROOT}/.pyenv" ]] && [[ -r "${PYENV_ROOT}/.pyenv" ]]; then
+      # Check if this is not already in "PATH".
+      if ! [[ "${PATH}" =~ ${PYENV_ROOT}/bin ]]; then
+        # Prepend it to "PATH".
+        PATH="${PYENV_ROOT}/bin:${PATH}"
+      fi
+
+      # Generate the required environment variables for "PyEnv" and store them in a new variable.
+      sPyEnvEnvironment=$(pyenv init -)
+
+      # Evaluate the values generated above to setup "PyEnv".
+      eval "${sPyEnvEnvironment}"
+
+      # Release the variable "sPyEnvEnvironment" used earlier.
+      unset sPyEnvEnvironment
+    fi
+  fi
+fi
+
+# Finalize #
+############
+
+# All changes to "PATH" done above are only applicable in the current scope.
+# To make them applicable to the entire user environment, we need to export it.
+export PATH

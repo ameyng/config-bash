@@ -1,0 +1,51 @@
+######################
+# Bash Configuration #
+######################
+
+# This file sets some options specific to "Bash".
+
+# Quality Of Life #
+###################
+
+# Automatically change directory when entering just a path.
+# i.e. Executing "/path/to/some/directory" is equivalent to "cd /path/to/some/directory".
+shopt -s autocd
+
+# Resize displayed content when the parent terminal emulator program is resized.
+# This prevents weird graphical artifacts when resizing terminal emulators.
+shopt -s checkwinsize
+
+# History #
+###########
+
+# Enable reading and writing an unlimited number of lines to/from the history (in-memory).
+HISTSIZE=
+
+# Enable reading and writing an unlimited number of lines to/from the history file (on-disk).
+HISTFILESIZE=
+
+# Save the history to a custom file instead of the default "~/.bash_history".
+# This is because some "Bash" sessions truncate this file on exit.
+HISTFILE="${HOME}/.my_bash_history"
+
+# Disable overwriting the history file, insetad always append to it.
+shopt -s histappend
+
+# Append to the history file immediately after executing a command, before accepting further input.
+# This ensures that history entries are written immediately and multiple sessions of "Bash" remain in sync with respect to their history (eg: while using "tmux").
+# This is done by setting the "PROMPT_COMMAND" variable.
+# When set, it is evaludated right before "PS1" (primary prompt displayed before each command).
+PROMPT_COMMAND="history -a; ${PROMPT_COMMAND}"
+
+# Save all lines of a multi-line command in the same history entry.
+shopt -s cmdhist
+
+# Re-edit a history substitution line if it failed.
+shopt -s histreedit
+
+# Edit a recalled history line before executing.
+shopt -s histverify
+
+# Timestamp each entry in the history.
+# Here's a sample of the format used "894  [Wed-20-Dec-2023-04-12-21-AM-+0530] ==> ls -Alh".
+HISTTIMEFORMAT="[%a-%d-%b-%Y-%I-%M-%S-%p-%z] ==> "
