@@ -52,11 +52,11 @@ The following requirements must be met in order to use this configuration.
 
 The supported operating systems and the location of the respective configurations are shown below.
 
-|    **OS**   	|             **Configuration Path(s)**             	|
-|:-----------:	|:-------------------------------------------------:	|
-| [GNU/Linux] 	| `~/.bashrc`<br>`~/.bash_profile`<br>`~/.bashrc.d` 	|
-|   [MacOS]   	| `~/.bashrc`<br>`~/.bash_profile`<br>`~/.bashrc.d` 	|
-|    [BSDs]   	| `~/.bashrc`<br>`~/.bash_profile`<br>`~/.bashrc.d` 	|
+|    **OS**   	|           **Configuration Path(s)**           	|  **Remarks** 	|
+|:-----------:	|:---------------------------------------------:	|:------------:	|
+| [GNU/Linux] 	| `~/.bashrc.d`, `~/.bashrc`, `~/.bash_profile` 	|     None     	|
+|   [MacOS]   	| `~/.bashrc.d`, `~/.bashrc`, `~/.bash_profile` 	|     None     	|
+|    [BSDs]   	| `~/.bashrc.d`, `~/.bashrc`, `~/.bash_profile` 	| **Untested** 	|
 
 ### Required Programs/Packages
 
@@ -162,7 +162,7 @@ The following additional requirements must be met in otder to use this configura
 
 [Bash]: https://www.gnu.org/software/bash "Bash"
 [GNU Bash]: https://www.gnu.org/software/bash "Bash"
-[ShellCheck]: https://github.com/koalaman/shellcheck "ShellCheck" 
+[ShellCheck]: https://github.com/koalaman/shellcheck "ShellCheck"
 [shfmt]: https://github.com/mvdan/sh "shfmt"
 [pyenv]: https://github.com/pyenv/pyenv "pyenv"
 [Homebrew]: https://brew.sh "Homebrew"

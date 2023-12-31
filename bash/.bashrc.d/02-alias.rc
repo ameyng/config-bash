@@ -1,0 +1,249 @@
+###########
+# Aliases #
+###########
+# This file sets up some useful aliases.
+
+# "ls" #
+########
+# Argument list:
+# "--color=auto" - Apply color to output as needed.
+alias ls="ls --color=auto"
+
+# "cd.." #
+##########
+alias cd..="cd .."
+
+# "mountt" #
+############
+# Argument list:
+# "column" - A separate command/utility that allows formatting output neatly into columns.
+# "-t" - Structure the output of the "column" utility into a table format.
+alias mountt="mount | column -t"
+
+# "ll" #
+########
+# Argument list:
+# "--color=auto" - Apply color to output as needed.
+# "--almost-all" - List all files and directories including hidden ones except the "." and ".." directories.
+# "--human-readable" - Print sizes in human readable formats, in powers of 1024.
+# "-l" - Use long list format.
+# "--group-directories-first" - Self-explanatory.
+# "--sort=time" - Sort by last modified time.
+# "--classify=auto" - Display a "/" after each directory, "*" after each executable, "@" after each symbolic link, "%" after each whiteout, "=" after each socket & "|" after each FIFO.
+# "--time-style='+[%a-%d-%b-%Y] [%H:%M:%S %Z]'" - Display timestamps on entries in the format "[Wed-20-Dec-2023] [04:12:21 IST]".
+alias ll="ls --color=auto --almost-all --human-readable -l --group-directories-first --sort=time --classify=auto --time-style='+[%a-%d-%b-%Y] [%H:%M:%S %Z]'"
+
+# "grep" #
+##########
+# Argument list:
+# "--color=auto" - Apply color to output as needed.
+alias grep="grep --color=auto"
+
+# "igrep" #
+##########
+# Argument list:
+# "--color=auto" - Apply color to output as needed.
+# "--ignore-case" - Case-insensitive matching.
+alias igrep="grep --color=auto --ignore-case"
+
+# "egrep" #
+###########
+# Argument list:
+# "--color=auto" - Apply color to output as needed.
+# "-E" - Support extended regular expression matching.
+alias egrep="grep --color=auto -E"
+
+# "iegrep" #
+###########
+# Argument list:
+# "--color=auto" - Apply color to output as needed.
+# "--ignore-case" - Case-insensitive matching.
+# "-E" - Support extended regular expression matching.
+alias iegrep="grep --color=auto --ignore-case -E"
+
+# "fgrep" #
+###########
+# Argument list:
+# "--color=auto" - Apply color to output as needed.
+# "-F" - Support fixed string matching i.e. no regular expressions of any kind.
+alias fgrep="grep --color=auto -F"
+
+# "ifgrep" #
+###########
+# Argument list:
+# "--color=auto" - Apply color to output as needed.
+# "--ignore-case" - Case-insensitive matching.
+# "-F" - Support fixed string matching i.e. no regular expressions of any kind.
+alias ifgrep="grep --color=auto --ignore-case -F"
+
+# "mkdir" #
+###########
+# Argument list:
+# "--parents" - Create parent directories if they don't exist & don't throw an error if the target directory already exists.
+# "--verbose" - Print what directories are being created.
+alias mkdir="mkdir --parents --verbose"
+
+# "rm" #
+########
+# Argument list:
+# "--interactive=once" - Prompt for confirmation before removing more than 3 files or when removing recursively.
+# "--recursive" - Remove directories and their contents recursively.
+# "--verbose" - Print which files or directories are being removed.
+# "--preserve-root" - Prevent "/" from being removed.
+alias rm="rm --interactive=once --recursive --preserve-root --verbose"
+
+# "histon", "histoff", "histsearch" #
+#####################################
+# Argument list:
+# "-o history" - Switch on recording events to history.
+# "+o history" - Switch off recorfing events to history.
+# "--color=auto" - Apply color to output as needed.
+# "--ignore-case" - Case-insensitive matching.
+# "-E" - Support extended regular expression matching.
+
+alias histon="set -o history; echo '[I] \"Bash\" history: ON'"
+alias histoff="set +o history; echo '[I] \"Bash\" history: OFF'"
+alias histsearch="history | grep --color=auto --ignore-case -E"
+
+# "llsblk" #
+############
+# Argument list:
+# "--output NAME,TYPE,RM,SIZE,FSUSED,FSAVAIL,FSTYPE,FSVER,LABEL,PARTLABEL,UUID,MOUNTPOINTS" - List specific columns mentioned in the comma-separated list.
+
+# Column Descriptions:
+# "NAME" - Name of the deivce eg: "/dev/sda1".
+# "TYPE" - Type of the device eg: "disk", "part", etc.
+# "RM" - Set to "1" if the device is a removable device eg: a USB stick, "0" if not.
+# "SIZE" - Size of the device in human readable units.
+# "FSUSED" - Amount of space utilized on the filesystem.
+# "FSAVAIL" - Amount of space available on the filesystem.
+# "FSTYPE" - Filesystem format eg: "ext4", "vfat", "btrfs", etc.
+# "FSVER" - Filesystem format version eg: "1.0", "FAT32", etc.
+# "LABEL" - Filesystem label.
+# "PARTLABEL" - Partition label.
+# "UUID" - Unique identifier for the device.
+# "MOUNTPOINTS" - All the filesystem paths that the device is mounted on.
+
+# Initialize the path of the "lsblk" binary.
+# This could be an empty string i.e. the program is not installed or not added to "PATH".
+sBinaryPath=$(command -v lsblk)
+
+# Check if the value of the variable points to an executable.
+if [[ -x "${sBinaryPath}" ]]; then
+  alias llsblk="lsblk -o NAME,TYPE,RM,SIZE,FSUSED,FSAVAIL,FSTYPE,FSVER,LABEL,PARTLABEL,UUID,MOUNTPOINTS"
+fi
+
+# "ping5", "ping10" #
+#####################
+# Argument list:
+# "-c 5|10" - Stop execution after receiving 5 or 10 replies respectively.
+
+alias ping5="ping -c 5"
+alias ping10="ping -c 10"
+
+# "wget" #
+##########
+# Argument list:
+# "-c" - Allow resuming downloads if supported.
+
+# Initialize the path of the "wget" binary.
+# This could be an empty string i.e. the program is not installed or not added to "PATH".
+sBinaryPath=$(command -v wget)
+
+# Check if the "wget" executable is found at the above path.
+if [[ -x "${sBinaryPath}" ]]; then
+  alias wget="wget -c"
+fi
+
+# "nvim" #
+##########
+# Initialize the path of the "nvim" binary.
+# This could be an empty string i.e. the program is not installed or not added to "PATH".
+sBinaryPath=$(command -v nvim)
+
+# Check if the "nvim" executable is found at the above path.
+if [[ -x "${sBinaryPath}" ]]; then
+  alias vi="nvim"
+  alias vim="nvim"
+fi
+
+# "qtile-reload", "qtile-restart" & "qtile-log" #
+#################################################
+# Initialize the path of the "qtile" binary.
+# This could be an empty string i.e. the program is not installed or not added to "PATH".
+sBinaryPath=$(command -v qtile)
+
+# Check if the "qtile" executable is found at the above path.
+if [[ -x "${sBinaryPath}" ]]; then
+  alias qtile-reload="qtile cmd-obj -o cmd -f reload_config"
+  alias qtile-restart="qtile cmd-obj -o cmd -f restart"
+  # alias qtile-log="\${PAGER} $HOME/.local/share/qtile/qtile.log"
+fi
+
+# "ldf" #
+#########
+# Argument list:
+# "--output" - Output all columns.
+# "--human-readable" - Express sizes in powers of 1024.
+
+# Initialize the path of the "df" binary.
+# This could be an empty string i.e. the program is not installed or not added to "PATH".
+sBinaryPath=$(command -v df)
+
+# Check if the "df" executable is found at the above path.
+if [[ -x "${sBinaryPath}" ]]; then
+  alias ldf="df --output --human-readable"
+fi
+
+# "shellcheck", "shellcheck-sh", "shellcheck-bash", "shellcheck-dash", "shellcheck-ksh" #
+#########################################################################################
+# Argument list:
+# "--color=auto" - Apply color to output as needed.
+# "--enable=all" - Enable all optional checks.
+# "--external-sources" - Allow the "source" operation outside of files.
+# "--shell=sh|bash|dash|ksh" - Enable "sh", "bash", "dash" or "ksh" dialects respectively.
+
+# Initialize the path of the "shellcheck" binary.
+# This could be an empty string i.e. the program is not installed or not added to "PATH".
+sBinaryPath=$(command -v shellcheck)
+
+# Check if the "shellcheck" executable is found at the above path.
+if [[ -x "${sBinaryPath}" ]]; then
+  alias shellcheck="shellcheck --color=auto --enable=all --external-sources"
+  alias shellcheck-sh="shellcheck --color=auto --enable=all --external-sources --shell=sh"
+  alias shellcheck-bash="shellcheck --color=auto --enable=all --external-sources --shell=bash"
+  alias shellcheck-dash="shellcheck --color=auto --enable=all --external-sources --shell=dash"
+  alias shellcheck-ksh="shellcheck --color=auto --enable=all --external-sources --shell=ksh"
+fi
+
+# "shfmt", "shfmt-check", "shfmt-apply", "shfmt-checkbash", "shfmt-applybash", "shfmt-checkposix", "shfmt-applyposix", "shfmt-checkmksh", "shfmt-applymksh", "shfmt-checkbats", "shfmt-applybats" #
+###################################################################################################################################################################################################
+# Argument list:
+# "--diff" - Error with a diff when the formatting differs.
+# "--indent 2" - Apply an indentation of 2 spaces.
+# "--binary-next-line" - Binary operations like "&&" and "|" may start a line.
+# "--case-indent" - Switch case blocks will be indented.
+# "--space-redirects" - Redirect operators will be followed by a space.
+# "--func-next-line" - Function opening braces are placed on a separate line.
+# "--language-dialect=auto" - Enable automatic dialect detection.
+# "--language-dialect=bash|posix|mksh|bats" - Enable "bash", "posix", "mksh" or "bats" dialects respectively.
+# "--write" - Write the formatted output to the input file instead of STDOUT.
+
+# Initialize the path of the "shfmt" binary.
+# This could be an empty string i.e. the program is not installed or not added to "PATH".
+sBinaryPath=$(command -v shfmt)
+
+# Check if the "shfmt" executable is found at the above path.
+if [[ -x "${sBinaryPath}" ]]; then
+  alias shfmt="shfmt --diff --indent 2 --binary-next-line --case-indent --space-redirects --func-next-line --language-dialect=auto"
+  alias shfmt-check="shfmt --diff --indent 2 --binary-next-line --case-indent --space-redirects --func-next-line --language-dialect=auto"
+  alias shfmt-apply="shfmt --diff --indent 2 --binary-next-line --case-indent --space-redirects --func-next-line --language-dialect=auto --write"
+  alias shfmt-checkbash="shfmt --diff --indent 2 --binary-next-line --case-indent --space-redirects --func-next-line --language-dialect=bash"
+  alias shfmt-applybash="shfmt --diff --indent 2 --binary-next-line --case-indent --space-redirects --func-next-line --language-dialect=bash --write"
+  alias shfmt-checkposix="shfmt --diff --indent 2 --binary-next-line --case-indent --space-redirects --func-next-line --language-dialect=posix"
+  alias shfmt-applyposix="shfmt --diff --indent 2 --binary-next-line --case-indent --space-redirects --func-next-line --language-dialect=posix --write"
+  alias shfmt-checkmksh="shfmt --diff --indent 2 --binary-next-line --case-indent --space-redirects --func-next-line --language-dialect=mksh"
+  alias shfmt-applymksh="shfmt --diff --indent 2 --binary-next-line --case-indent --space-redirects --func-next-line --language-dialect=mksh --write"
+  alias shfmt-checkbats="shfmt --diff --indent 2 --binary-next-line --case-indent --space-redirects --func-next-line --language-dialect=bats"
+  alias shfmt-applybats="shfmt --diff --indent 2 --binary-next-line --case-indent --space-redirects --func-next-line --language-dialect=bats --write"
+fi

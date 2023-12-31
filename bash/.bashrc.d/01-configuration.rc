@@ -54,5 +54,5 @@ shopt -s histreedit
 shopt -s histverify
 
 # Timestamp each entry in the history.
-# Here's a sample of the format used "894  [Wed-20-Dec-2023-04-12-21-AM-+0530] ==> ls -Alh".
-HISTTIMEFORMAT="[%a-%d-%b-%Y-%H-%M-%S-%Z] ==> "
+# Here's a sample of the format used "894  [Wed-20-Dec-2023] [04:12:21 IST] ==> ls -Alh".
+HISTTIMEFORMAT="[%a-%d-%b-%Y] [%H:%M:%S %Z] ==> "

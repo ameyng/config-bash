@@ -1,0 +1,13 @@
+##################
+# Bash Functions #
+##################
+
+# This file defines some useful functions in "Bash".
+
+# "goback" #
+############
+function goback {
+
+  echo "Going back"
+
+}

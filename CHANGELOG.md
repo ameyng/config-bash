@@ -24,6 +24,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed the history not syncing across multiple sessions.
+
+### Changed
+
+- Tweaked the timestamps for the history entires a little.
+
+- Better comments.
+
 ## [0.1.0] - 2023-12-20
 
 ### Added
