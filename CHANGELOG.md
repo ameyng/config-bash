@@ -34,6 +34,10 @@ All notable changes to this project will be documented in this file.
 
 - Better comments.
 
+- Improved formatting in the [README]
+
+- Added multiple new aliases and created a boilerplate empty function.
+
 ## [0.1.0] - 2023-12-20
 
 ### Added
@@ -59,3 +63,4 @@ All notable changes to this project will be documented in this file.
 <!-- General annotations -->
 [Homebrew]: https://brew.sh "Homebrew"
 [pyenv]: https://github.com/pyenv/pyenv "pyenv"
+[README]: README.md "Readme"
